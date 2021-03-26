@@ -20,7 +20,7 @@ Una vez se resuelve el turno se comprueba si el jugador o el enemigo han muerto:
 
 
 **Objetivos:**
-1. Crear los siguientes sistemas e implementar el patrón factory:
+1. Crear los siguientes sistemas e implementar el patrón object pool:
 * Sistema de creación de enemigos.
 * Sistema de disparo.
 2. Estructurar y comentar el código correctamente.
