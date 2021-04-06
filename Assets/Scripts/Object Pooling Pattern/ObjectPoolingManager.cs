@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// DONE
+
 // TODO: Client code. It gets a reference to this class and use the interface: Spawn and Despawn
-// TODO: Make this a generic class
+// TODO: Make this a generic class => Can't, SetActive is a GameObject method
 
 public class ObjectPoolingManager : MonoBehaviour
 {

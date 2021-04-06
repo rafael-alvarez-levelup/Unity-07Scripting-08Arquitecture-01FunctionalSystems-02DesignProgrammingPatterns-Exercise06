@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
+
+// DONE
 
 // TODO: Modularize (SRP).
 
@@ -15,9 +18,16 @@ public class SpawnController : MonoBehaviour
     [SerializeField] private List<Transform> spawnPoints = new List<Transform>();
     [SerializeField] private float delay;
 
+    private GameObjectPoolingManager enemiesPoolingManager;
+
     #endregion
 
     #region Unity Methods
+
+    private void Awake()
+    {
+        InitializeEnemiesPool();
+    }
 
     private void Start()
     {
@@ -28,6 +38,32 @@ public class SpawnController : MonoBehaviour
 
     #region My Methods
 
+    private void InitializeEnemiesPool()
+    {
+        GameObject poolHolder = new GameObject("EnemiesPoolingManager", typeof(GameObjectPoolingManager));
+
+        enemiesPoolingManager = poolHolder.GetComponent<GameObjectPoolingManager>();
+        Assert.IsNotNull(enemiesPoolingManager);
+
+        List<GameObject> prefabs = new List<GameObject>();
+
+        foreach (var wave in waves)
+        {
+            foreach (var prefab in wave.Sequence)
+            {
+                ISetGameObjectPoolingManager gameObjectPoolingManagerSetter = prefab.GetComponent<ISetGameObjectPoolingManager>();
+                Assert.IsNotNull(gameObjectPoolingManagerSetter);
+
+                // This doesn't work with interfaces
+                gameObjectPoolingManagerSetter.SetGameObjectPoolingManager(enemiesPoolingManager);
+
+                prefabs.Add(prefab);
+            }
+        }
+
+        enemiesPoolingManager.InitializePool(prefabs);
+    }
+
     private IEnumerator SpawnWaves()
     {
         WaitForSeconds waveDelay = new WaitForSeconds(delay);
@@ -36,11 +72,11 @@ public class SpawnController : MonoBehaviour
         {
             WaitForSeconds memberDelay = new WaitForSeconds(wave.Delay);
 
-            foreach (GameObject member in wave.Sequence)
+            for (int i = 0; i < wave.Sequence.Count; i++)
             {
                 Transform pointToSpawn = spawnPoints[HelperFunctions.GetRandomIndex(0, spawnPoints.Count)];
 
-                Instantiate(member, pointToSpawn.position, pointToSpawn.rotation);
+                enemiesPoolingManager.Spawn(pointToSpawn.position, pointToSpawn.rotation);
 
                 yield return memberDelay;
             }
