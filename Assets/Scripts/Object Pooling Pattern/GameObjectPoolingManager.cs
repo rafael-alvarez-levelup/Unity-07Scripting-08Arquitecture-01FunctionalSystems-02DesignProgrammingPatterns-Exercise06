@@ -1,53 +1,47 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 // DONE
 
 public class GameObjectPoolingManager : MonoBehaviour, IObjectPooling
 {
-    private readonly Queue<GameObject> pool = new Queue<GameObject>();
+    protected readonly Queue<GameObject> pool = new Queue<GameObject>();
 
-    [SerializeField] private GameObject prefab;
-
-    public void InitializePool(List<GameObject> gameObjects)
+    public void InitializePool(List<GameObject> prefabs)
     {
-        prefab = gameObjects[0];
-
-        for (int i = 0; i < gameObjects.Count; i++)
+        for (int i = 0; i < prefabs.Count; i++)
         {
-            GameObject gameObject = Instantiate(gameObjects[i], transform);
-            Enqueue(gameObject);
+            GameObject prefab = Instantiate(prefabs[i], transform);
+            Enqueue(prefab);
         }
     }
 
-    public GameObject Spawn(Vector3 position, Quaternion rotation)
+    public GameObject Spawn(Vector3 position, Quaternion rotation, GameObject prefab = null)
     {
         if (pool.Count == 0)
         {
-            GameObject gameObject = Instantiate(prefab, transform);
-            Enqueue(gameObject);
+            if (prefab == null) throw new Exception("The pool is empty! Pass prefab from client.");
+
+            GameObject newPrefab = Instantiate(prefab, transform);
+            Enqueue(newPrefab);
         }
 
-        return GetGameObject(position, rotation);
+        GameObject poolPrefab = pool.Dequeue();
+        poolPrefab.transform.SetPositionAndRotation(position, rotation);
+        poolPrefab.SetActive(true);
+
+        return poolPrefab;
     }
 
-    public void Despawn(GameObject gameObject)
+    public void Despawn(GameObject prefab)
     {
-        Enqueue(gameObject);
+        Enqueue(prefab);
     }
 
-    private void Enqueue(GameObject gameObject)
+    protected void Enqueue(GameObject prefab)
     {
-        gameObject.SetActive(false);
-        pool.Enqueue(gameObject);
-    }
-
-    private GameObject GetGameObject(Vector3 position, Quaternion rotation)
-    {
-        GameObject gameObject = pool.Dequeue();
-        gameObject.transform.SetPositionAndRotation(position, rotation);
-        gameObject.SetActive(true);
-
-        return gameObject;
+        prefab.SetActive(false);
+        pool.Enqueue(prefab);
     }
 }

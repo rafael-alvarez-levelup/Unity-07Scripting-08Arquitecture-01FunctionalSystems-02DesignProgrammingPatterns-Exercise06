@@ -1,25 +1,25 @@
 ﻿using UnityEngine;
-using UnityEngine.Assertions;
 
 // DONE
 
-public class DestroySelfBehaviour : MonoBehaviour, ISelfDestroyable, ISetGameObjectPoolingManager
-{
-    // WHAT? It doesn't work without SerializeField
-    [SerializeField] private GameObjectPoolingManager gameObjectPoolingManager;
+// TODO: Better way to inject poolingManager
 
-    public void SetGameObjectPoolingManager(GameObjectPoolingManager gameObjectPoolingManager)
+public class DestroySelfBehaviour : MonoBehaviour, ISelfDestroyable, ISetPoolingManager
+{
+    // TODO: Doesn't work with private accessor
+    public GameObjectPoolingManager poolingManager;
+
+    // TODO: Doesn't work with interfaces
+    public void SetPoolingManager(GameObjectPoolingManager gameObjectPoolingManager)
     {
-        this.gameObjectPoolingManager = gameObjectPoolingManager;
+        poolingManager = gameObjectPoolingManager;
     }
 
     public virtual void Destroy()
     {
-        Assert.IsNotNull(gameObjectPoolingManager);
-
-        if (gameObjectPoolingManager != null)
+        if (poolingManager != null)
         {
-            gameObjectPoolingManager.Despawn(gameObject);
+            poolingManager.Despawn(gameObject);
         }
         else
         {

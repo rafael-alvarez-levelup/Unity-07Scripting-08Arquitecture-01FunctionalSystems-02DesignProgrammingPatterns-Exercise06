@@ -6,6 +6,9 @@ using UnityEngine.Assertions;
 
 public class WeaponLaser : WeaponBase
 {
+    [SerializeField] private int numberOfShots = 3;
+
+    // TODO: Doesn't work with interfaces
     private GameObjectPoolingManager laserPoolingManager;
 
     private void Awake()
@@ -15,7 +18,7 @@ public class WeaponLaser : WeaponBase
 
     public override void Fire(Transform firePoint)
     {
-        GameObject laser = laserPoolingManager.Spawn(firePoint.position, firePoint.rotation);
+        GameObject laser = laserPoolingManager.Spawn(firePoint.position, firePoint.rotation, prefab);
 
         IAddVelocityChangeForce launcher = laser.GetComponent<IAddVelocityChangeForce>();
 
@@ -28,18 +31,19 @@ public class WeaponLaser : WeaponBase
     {
         GameObject poolHolder = new GameObject("LaserPoolingManager", typeof(GameObjectPoolingManager));
 
+        // TODO: Doesn't work with interfaces
         laserPoolingManager = poolHolder.GetComponent<GameObjectPoolingManager>();
         Assert.IsNotNull(laserPoolingManager);
 
         List<GameObject> prefabs = new List<GameObject>();
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < numberOfShots; i++)
         {
-            ISetGameObjectPoolingManager gameObjectPoolingManagerSetter = prefab.GetComponent<ISetGameObjectPoolingManager>();
+            ISetPoolingManager gameObjectPoolingManagerSetter = prefab.GetComponent<ISetPoolingManager>();
             Assert.IsNotNull(gameObjectPoolingManagerSetter);
 
-            // This doesn't work with interfaces
-            gameObjectPoolingManagerSetter.SetGameObjectPoolingManager(laserPoolingManager);
+            // TODO: Doesn't work with interfaces
+            gameObjectPoolingManagerSetter.SetPoolingManager(laserPoolingManager);
 
             prefabs.Add(prefab);
         }

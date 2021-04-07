@@ -18,6 +18,7 @@ public class SpawnController : MonoBehaviour
     [SerializeField] private List<Transform> spawnPoints = new List<Transform>();
     [SerializeField] private float delay;
 
+    // TODO: Doesn't work with interfaces
     private GameObjectPoolingManager enemiesPoolingManager;
 
     #endregion
@@ -42,6 +43,7 @@ public class SpawnController : MonoBehaviour
     {
         GameObject poolHolder = new GameObject("EnemiesPoolingManager", typeof(GameObjectPoolingManager));
 
+        // TODO: Doesn't work with interfaces
         enemiesPoolingManager = poolHolder.GetComponent<GameObjectPoolingManager>();
         Assert.IsNotNull(enemiesPoolingManager);
 
@@ -51,11 +53,11 @@ public class SpawnController : MonoBehaviour
         {
             foreach (var prefab in wave.Sequence)
             {
-                ISetGameObjectPoolingManager gameObjectPoolingManagerSetter = prefab.GetComponent<ISetGameObjectPoolingManager>();
+                ISetPoolingManager gameObjectPoolingManagerSetter = prefab.GetComponent<ISetPoolingManager>();
                 Assert.IsNotNull(gameObjectPoolingManagerSetter);
 
-                // This doesn't work with interfaces
-                gameObjectPoolingManagerSetter.SetGameObjectPoolingManager(enemiesPoolingManager);
+                // TODO: Doesn't work with interfaces
+                gameObjectPoolingManagerSetter.SetPoolingManager(enemiesPoolingManager);
 
                 prefabs.Add(prefab);
             }
@@ -76,6 +78,7 @@ public class SpawnController : MonoBehaviour
             {
                 Transform pointToSpawn = spawnPoints[HelperFunctions.GetRandomIndex(0, spawnPoints.Count)];
 
+                // Doesn't need a prefab, it's a fixed sequence
                 enemiesPoolingManager.Spawn(pointToSpawn.position, pointToSpawn.rotation);
 
                 yield return memberDelay;
