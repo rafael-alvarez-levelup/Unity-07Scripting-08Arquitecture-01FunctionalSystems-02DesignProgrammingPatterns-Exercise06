@@ -2,15 +2,11 @@
 
 // DONE
 
-// TODO: Better way to inject poolingManager
-
 public class DestroySelfBehaviour : MonoBehaviour, ISelfDestroyable, ISetPoolingManager
 {
-    // TODO: Doesn't work with private accessor
-    public GameObjectPoolingManager poolingManager;
+    private IObjectPooling poolingManager;
 
-    // TODO: Doesn't work with interfaces
-    public void SetPoolingManager(GameObjectPoolingManager gameObjectPoolingManager)
+    public void SetPoolingManager(IObjectPooling gameObjectPoolingManager)
     {
         poolingManager = gameObjectPoolingManager;
     }

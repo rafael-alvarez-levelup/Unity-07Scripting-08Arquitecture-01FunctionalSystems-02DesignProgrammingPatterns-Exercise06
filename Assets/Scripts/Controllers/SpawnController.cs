@@ -18,8 +18,7 @@ public class SpawnController : MonoBehaviour
     [SerializeField] private List<Transform> spawnPoints = new List<Transform>();
     [SerializeField] private float delay;
 
-    // TODO: Doesn't work with interfaces
-    private GameObjectPoolingManager enemiesPoolingManager;
+    private IObjectPooling enemiesPoolingManager;
 
     #endregion
 
@@ -43,8 +42,7 @@ public class SpawnController : MonoBehaviour
     {
         GameObject poolHolder = new GameObject("EnemiesPoolingManager", typeof(GameObjectPoolingManager));
 
-        // TODO: Doesn't work with interfaces
-        enemiesPoolingManager = poolHolder.GetComponent<GameObjectPoolingManager>();
+        enemiesPoolingManager = poolHolder.GetComponent<IObjectPooling>();
         Assert.IsNotNull(enemiesPoolingManager);
 
         List<GameObject> prefabs = new List<GameObject>();
@@ -56,7 +54,6 @@ public class SpawnController : MonoBehaviour
                 ISetPoolingManager gameObjectPoolingManagerSetter = prefab.GetComponent<ISetPoolingManager>();
                 Assert.IsNotNull(gameObjectPoolingManagerSetter);
 
-                // TODO: Doesn't work with interfaces
                 gameObjectPoolingManagerSetter.SetPoolingManager(enemiesPoolingManager);
 
                 prefabs.Add(prefab);

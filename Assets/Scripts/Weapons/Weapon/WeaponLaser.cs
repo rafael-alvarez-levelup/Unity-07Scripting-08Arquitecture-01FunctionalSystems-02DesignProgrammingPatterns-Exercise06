@@ -8,8 +8,7 @@ public class WeaponLaser : WeaponBase
 {
     [SerializeField] private int numberOfShots = 3;
 
-    // TODO: Doesn't work with interfaces
-    private GameObjectPoolingManager laserPoolingManager;
+    private IObjectPooling laserPoolingManager;
 
     private void Awake()
     {
@@ -31,8 +30,7 @@ public class WeaponLaser : WeaponBase
     {
         GameObject poolHolder = new GameObject("LaserPoolingManager", typeof(GameObjectPoolingManager));
 
-        // TODO: Doesn't work with interfaces
-        laserPoolingManager = poolHolder.GetComponent<GameObjectPoolingManager>();
+        laserPoolingManager = poolHolder.GetComponent<IObjectPooling>();
         Assert.IsNotNull(laserPoolingManager);
 
         List<GameObject> prefabs = new List<GameObject>();
@@ -42,7 +40,6 @@ public class WeaponLaser : WeaponBase
             ISetPoolingManager gameObjectPoolingManagerSetter = prefab.GetComponent<ISetPoolingManager>();
             Assert.IsNotNull(gameObjectPoolingManagerSetter);
 
-            // TODO: Doesn't work with interfaces
             gameObjectPoolingManagerSetter.SetPoolingManager(laserPoolingManager);
 
             prefabs.Add(prefab);

@@ -1,4 +1,6 @@
-﻿public interface ISetPoolingManager
+﻿// DONE
+
+public interface ISetPoolingManager
 {
-    void SetPoolingManager(GameObjectPoolingManager gameObjectPoolingManager);
+    void SetPoolingManager(IObjectPooling gameObjectPoolingManager);
 }
