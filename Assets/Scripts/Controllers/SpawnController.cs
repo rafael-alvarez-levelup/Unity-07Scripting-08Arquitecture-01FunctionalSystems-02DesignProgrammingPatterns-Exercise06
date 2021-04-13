@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 // DONE
 
@@ -26,6 +25,8 @@ public class SpawnController : MonoBehaviour
 
     private void Awake()
     {
+        enemiesPoolingManager = FindObjectOfType<EnemiesPoolingManager>();
+
         InitializeEnemiesPool();
     }
 
@@ -40,22 +41,12 @@ public class SpawnController : MonoBehaviour
 
     private void InitializeEnemiesPool()
     {
-        GameObject poolHolder = new GameObject("EnemiesPoolingManager", typeof(GameObjectPoolingManager));
-
-        enemiesPoolingManager = poolHolder.GetComponent<IObjectPooling>();
-        Assert.IsNotNull(enemiesPoolingManager);
-
         List<GameObject> prefabs = new List<GameObject>();
 
         foreach (var wave in waves)
         {
             foreach (var prefab in wave.Sequence)
             {
-                ISetPoolingManager gameObjectPoolingManagerSetter = prefab.GetComponent<ISetPoolingManager>();
-                Assert.IsNotNull(gameObjectPoolingManagerSetter);
-
-                gameObjectPoolingManagerSetter.SetPoolingManager(enemiesPoolingManager);
-
                 prefabs.Add(prefab);
             }
         }

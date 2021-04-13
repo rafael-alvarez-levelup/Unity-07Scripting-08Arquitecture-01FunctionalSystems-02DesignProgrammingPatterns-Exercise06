@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2044963642929839724}
   - component: {fileID: 7680658199015560036}
   - component: {fileID: 2188218858023416079}
-  - component: {fileID: 8421088626360211336}
+  - component: {fileID: 7073704216643624763}
   m_Layer: 0
   m_Name: ShotLaser
   m_TagString: Untagged
@@ -124,7 +124,7 @@ MonoBehaviour:
   triggerMask:
     serializedVersion: 2
     m_Bits: 1536
---- !u!114 &8421088626360211336
+--- !u!114 &7073704216643624763
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,10 +133,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a8e278a243a1c54f94c4317daa503a2, type: 3}
+  m_Script: {fileID: 11500000, guid: d158a575c7a46774783f24bcb62008a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObjectPoolingManager: {fileID: 0}
+  poolingManagerHolderName: LaserPoolingManager
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0

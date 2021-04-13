@@ -264,6 +264,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 100000, guid: f4ec271e525e14ca9927a07e6a2e153d, type: 3}
   fireRate: 0.1
+  laserPoolingManager: {fileID: 0}
+  numberOfShots: 3
 --- !u!114 &-2200377945843167457
 MonoBehaviour:
   m_ObjectHideFlags: 0

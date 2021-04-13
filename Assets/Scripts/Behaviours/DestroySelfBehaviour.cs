@@ -1,25 +1,9 @@
 ﻿using UnityEngine;
 
-// DONE
-
-public class DestroySelfBehaviour : MonoBehaviour, ISelfDestroyable, ISetPoolingManager
+public class DestroySelfBehaviour : MonoBehaviour, ISelfKill
 {
-    private IObjectPooling poolingManager;
-
-    public void SetPoolingManager(IObjectPooling gameObjectPoolingManager)
+    public void Kill()
     {
-        poolingManager = gameObjectPoolingManager;
-    }
-
-    public virtual void Destroy()
-    {
-        if (poolingManager != null)
-        {
-            poolingManager.Despawn(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject);
     }
 }

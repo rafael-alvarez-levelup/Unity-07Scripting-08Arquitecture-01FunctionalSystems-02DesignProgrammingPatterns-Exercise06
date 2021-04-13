@@ -12,6 +12,8 @@ public class WeaponLaser : WeaponBase
 
     private void Awake()
     {
+        laserPoolingManager = FindObjectOfType<LaserPoolingManager>();
+
         InitializeLaserPool();
     }
 
@@ -28,20 +30,10 @@ public class WeaponLaser : WeaponBase
 
     private void InitializeLaserPool()
     {
-        GameObject poolHolder = new GameObject("LaserPoolingManager", typeof(GameObjectPoolingManager));
-
-        laserPoolingManager = poolHolder.GetComponent<IObjectPooling>();
-        Assert.IsNotNull(laserPoolingManager);
-
         List<GameObject> prefabs = new List<GameObject>();
 
         for (int i = 0; i < numberOfShots; i++)
         {
-            ISetPoolingManager gameObjectPoolingManagerSetter = prefab.GetComponent<ISetPoolingManager>();
-            Assert.IsNotNull(gameObjectPoolingManagerSetter);
-
-            gameObjectPoolingManagerSetter.SetPoolingManager(laserPoolingManager);
-
             prefabs.Add(prefab);
         }
 

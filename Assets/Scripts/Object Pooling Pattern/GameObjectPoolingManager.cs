@@ -13,6 +13,10 @@ public class GameObjectPoolingManager : MonoBehaviour, IObjectPooling
         for (int i = 0; i < prefabs.Count; i++)
         {
             GameObject prefab = Instantiate(prefabs[i], transform);
+
+            ISetPoolingManager poolingManagerSetter = prefab.GetComponent<ISetPoolingManager>();
+            poolingManagerSetter.SetPoolingManager(this);
+
             Enqueue(prefab);
         }
     }

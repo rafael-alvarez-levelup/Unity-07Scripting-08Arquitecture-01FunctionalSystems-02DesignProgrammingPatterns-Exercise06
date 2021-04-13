@@ -10,11 +10,11 @@ public class HealthBehaviour : MonoBehaviour, IDamageable
 
     protected int currentHealth;
 
-    private ISelfDestroyable destroyable;
+    private ISelfKill killable;
 
     private void Awake()
     {
-        destroyable = GetComponent<ISelfDestroyable>();
+        killable = GetComponent<ISelfKill>();
 
         currentHealth = healthData.Health;
     }
@@ -35,6 +35,6 @@ public class HealthBehaviour : MonoBehaviour, IDamageable
     {
         Instantiate(explosionPrefab, transform.position, transform.rotation);
 
-        destroyable.Destroy();
+        killable.Kill();
     }
 }
